@@ -1,4 +1,4 @@
-# Car Affordability Calculator
+# Car Price Calculator
 
 A Python tool that helps you calculate the maximum car price you can afford based on your financial parameters.
 
@@ -20,8 +20,8 @@ A Python tool that helps you calculate the maximum car price you can afford base
 
 1. Clone this repository:
    ```
-   git clone https://github.com/yourusername/car-affordability-calculator.git
-   cd car-affordability-calculator
+   git clone https://github.com/harezaj/car-price-calculator.git
+   cd car-price-calculator
    ```
 
 2. Install required packages:
@@ -30,6 +30,17 @@ A Python tool that helps you calculate the maximum car price you can afford base
    ```
 
 ## Usage
+
+### Available Parameters
+
+| Parameter | Description | Default Value |
+|-----------|-------------|---------------|
+| `--max_monthly` | Maximum monthly payment you can afford | 750 |
+| `--loan_term` | Loan term in months | 60 |
+| `--down_payment` | Maximum down payment you can make | 20000 |
+| `--trade_in` | Value of your trade-in vehicle | 6000 |
+| `--min_rate` | Minimum interest rate to consider | 5.0 |
+| `--max_rate` | Maximum interest rate to consider | 6.0 |
 
 ### Basic Usage
 
@@ -55,6 +66,19 @@ python car_price_calculator.py --max_monthly 800 --down_payment 15000 --trade_in
 ```bash
 python car_price_calculator.py --loan_term 72
 ```
+
+### Comprehensive Example (Using All Parameters)
+
+```bash
+python car_price_calculator.py --max_monthly 850 --loan_term 72 --down_payment 25000 --trade_in 8000 --min_rate 4.0 --max_rate 7.0
+```
+
+This example:
+- Sets a monthly payment budget of $850
+- Uses a 72-month (6-year) loan term
+- Includes a down payment of $25,000
+- Adds a trade-in value of $8,000
+- Considers interest rates from 4.0% to 7.0%
 
 ## How It Works
 
@@ -100,4 +124,4 @@ MIT
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request. 
+Contributions are welcome! Please feel free to submit a Pull Request.
