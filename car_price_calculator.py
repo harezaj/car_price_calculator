@@ -4,17 +4,9 @@ import argparse
 from datetime import datetime
 import os
 
-# Try to import dotenv for loading environment variables from .env file
-try:
-    from dotenv import load_dotenv
-    # Load environment variables from .env file if it exists
-    load_dotenv()
-except ImportError:
-    print("Note: 'python-dotenv' package not installed. To use .env files, install it with: pip install python-dotenv")
-
 def calculate_max_affordable_price(max_monthly_payment=750, loan_term_months=60, 
-                                  max_down_payment=20000, trade_in=6000,
-                                  min_interest_rate=5.0, max_interest_rate=6.0, interest_step=0.5):
+                                 max_down_payment=20000, trade_in=6000,
+                                 min_interest_rate=5.0, max_interest_rate=6.0, interest_step=0.5):
     """Calculate the maximum affordable car price based on financial parameters."""
     
     # Interest rates from max_interest_rate down by interest_step increments to min_interest_rate
@@ -23,7 +15,7 @@ def calculate_max_affordable_price(max_monthly_payment=750, loan_term_months=60,
     # Down payments starting from max_down_payment down by 5000 (ensuring it stays non-negative)
     down_payments = np.arange(max_down_payment, -1, -5000)
     
-    # List to store results
+    # Create list for results (no pre-allocation in Python lists)
     max_affordable_cars = []
     
     for down_payment in down_payments:
@@ -58,6 +50,7 @@ def main():
     parser.add_argument('--trade_in', type=float, default=6000, help='Trade-in value')
     parser.add_argument('--min_rate', type=float, default=5.0, help='Minimum interest rate')
     parser.add_argument('--max_rate', type=float, default=6.0, help='Maximum interest rate')
+    parser.add_argument('--interest_step', type=float, default=0.5, help='Interest rate step for calculations')
     
     args = parser.parse_args()
     
@@ -69,11 +62,13 @@ def main():
         max_down_payment=args.down_payment,
         trade_in=args.trade_in,
         min_interest_rate=args.min_rate,
-        max_interest_rate=args.max_rate
+        max_interest_rate=args.max_rate,
+        interest_step=args.interest_step
     )
     
     # Display affordability results
     print("\nTop 10 Affordable Car Price Options:")
+    pd.set_option('display.precision', 2)  # Set display precision
     print(df_affordable.head(10))
     
     # Use the highest affordable price
