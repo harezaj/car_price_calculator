@@ -15,23 +15,23 @@ def calculate_max_affordable_price(max_monthly_payment=750, loan_term_months=60,
     # Down payments starting from max_down_payment down by 5000 (ensuring it stays non-negative)
     down_payments = np.arange(max_down_payment, -1, -5000)
     
-    # Create list for results (no pre-allocation in Python lists)
     max_affordable_cars = []
     
     for down_payment in down_payments:
         for interest_rate in interest_rates:
-            for loan_amount in range(5000, 100000, 500):  # Incrementing loan amounts to find max affordable
-                monthly_interest_rate = (interest_rate / 100) / 12
-                if monthly_interest_rate > 0:
-                    monthly_payment = (loan_amount * monthly_interest_rate) / (1 - (1 + monthly_interest_rate) ** -loan_term_months)
-                else:
-                    monthly_payment = loan_amount / loan_term_months
-    
-                if monthly_payment > max_monthly_payment:
-                    break  # Stop once we exceed the budget
-    
-                max_car_price = loan_amount + down_payment + trade_in
-                max_affordable_cars.append([max_car_price, down_payment, interest_rate, loan_amount, monthly_payment])
+            # Calculate monthly interest rate
+            monthly_interest_rate = (interest_rate / 100) / 12
+            
+            # Calculate maximum loan amount directly
+            if monthly_interest_rate > 0:
+                max_loan_amount = max_monthly_payment * (1 - (1 + monthly_interest_rate) ** -loan_term_months) / monthly_interest_rate
+            else:
+                max_loan_amount = max_monthly_payment * loan_term_months
+            
+            # Calculate total car price
+            max_car_price = max_loan_amount + down_payment + trade_in
+            
+            max_affordable_cars.append([max_car_price, down_payment, interest_rate, max_loan_amount, max_monthly_payment])
     
     # Convert to DataFrame and sort by Max Car Price in descending order
     df_max_affordable = pd.DataFrame(max_affordable_cars, columns=['Max Car Price', 'Money Down', 'Interest Rate (%)', 'Loan Amount', 'Monthly Payment'])
